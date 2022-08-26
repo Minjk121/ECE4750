@@ -7,7 +7,7 @@ int avg( int x, int y )
 }
 */
 
-// unsigned makes assembly code shorter
+// unsigned makes assembly code shorter - optimized
 unsigned int avg( unsigned int x, unsigned int y )
 {
   unsigned int sum = x + y;
