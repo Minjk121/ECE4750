@@ -137,6 +137,7 @@ If stalling, ostall_D / ostall_waadr_X_rsl_D signals should go 1.
 
 If rs_en signal is 0, then we know the input is wrong.
 
+ZOOM in & make hypothesis & test & Zoom out
 
 ```
 --dump_vcd
