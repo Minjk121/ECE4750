@@ -1,4 +1,4 @@
-# ECE4750
+# ECE4750 Computer Networks DIS Notes
 
 ## DIS SEC03 NOTE
 - Ad-Hoc vs. Assertion Testing
@@ -133,6 +133,11 @@ There can be multiple bugs!
 ```
 gtkwave # shows the waveform
 ```
+If stalling, ostall_D / ostall_waadr_X_rsl_D signals should go 1. 
+
+If rs_en signal is 0, then we know the input is wrong.
+
+
 ```
 --dump_vcd
 ```
