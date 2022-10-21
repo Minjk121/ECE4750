@@ -143,3 +143,58 @@ ZOOM in & make hypothesis & test & Zoom out
 --dump_vcd
 ```
 Note a couple things about this systematic 10 step process. First, it is a systematic process … it does not involve randomly trying things. Second, the process uses all tools at your disposable: output from pytest, traceback, line tracing, and VCD waveforms. You really need to use all of these tools. If you use line tracing but never use VCD waveforms or you use VCD waveforms and never use line tracing then you are putting yourself at a disadvantage. Third, the process requires you to think critically and make a hypothesis about what should change – do not just change something, pass the test, and move on – change something and see if the line trace and waveforms change in the way you expect. Otherwise you can actually introduce more bugs even though you think are fixing things.
+
+# DIS SEC08 NOTE - [Lab 3, Cache](https://cornell-ece4750.github.io/ece4750-sec08-mem/)
+
+- Modular design (4 registers)
+Cache is not combinational, least one edge!
+idx: which entry way in the tag we should write
+
+write_init: initializes tag + data array to avoid a compulsary miss, write 4 bytes in data array
+-> only for testing!
+-> forces data to the cache
+
+- Testing
+
+functional level model simple test:
+```
+pytest ../lab3_mem/test/simple_test.py -s
+```
+test simple RTL model from FL model by changing one line:
+```
+model = TestHarness( CacheFL(), msgs[::2], msgs[1::2] ) # before
+
+model = TestHarness( CacheSimple(), msgs[::2], msgs[1::2] ) # after
+```
+
+- Datapath
+
+256B, 16B cache lines, directed mapped
+```
+      assign cachereq_addr_byte_offset = cachereq_addr[1:0];
+      assign cachereq_addr_word_offset = cachereq_addr[3:2];
+      assign cachereq_addr_index       = cachereq_addr[7:4]; // 16 sets = 4 bits
+      assign cachereq_addr_tag         = cachereq_addr[31:8];
+```
+
+- Control Unit
+
+implement FSM
+```
+  // Set outputs using a control signal "table"
+  always @(*) begin
+                              cs( 0,   0,    0,    0,    0,    0,    0,    0,    0     );
+    case ( state_reg )
+      //                         cache cache cache tag   tag   data  data  valid valid
+      //                         req   resp  req   array array array array bit   write
+      //                         rdy   val   en    wen   ren   wen   ren   in    en
+      STATE_IDLE:             cs( 1,   0,    1,    0,    0,    0,    0,    0,    0     );
+      STATE_TAG_CHECK:        cs( 1,   0,    1,    0,    0,    0,    0,    0,    0     );   
+      STATE_INIT_DATA:        cs( 1,   0,    1,    0,    0,    0,    0,    0,    0     );     
+
+      default:                cs( 0,   0,    0,    0,    0,    0,    0,    0,    0     );
+
+    endcase
+  end
+  
+```
