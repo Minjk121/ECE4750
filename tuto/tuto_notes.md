@@ -198,3 +198,21 @@ implement FSM
   end
   
 ```
+
+# DIS SEC09 - Queue
+
+Testing info can be found [here](https://github.com/cornell-ece4750/ece4750-sec09-mem-rtest-queues/blob/main/docs/index.md)
+Key point is queue/memory should be initialized before the testing - by putting data first!
+- in random test, data_1KB function intializes before the "read" is called in the tests
+
+- Normal queue: without combinational 
+    - enqueue(1 cycle), dequeue(1 cycle)
+    - half of the time, the queue is empty
+- Two-element Normal queue:
+    - enqueue(1 cycle): packet can be in any one of two elements, dequeue(1 cycle)
+    - by having two elements, the queue is never empty
+    - but more area, edge
+- Pipe queue:
+    - combinational communication between en+dequeue in single cycle with one wire (deq_rdy->ene_rdy)
+- Bypass queue
+    - flow, enqueue when it's not ready
