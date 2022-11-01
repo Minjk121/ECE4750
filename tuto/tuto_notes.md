@@ -199,7 +199,7 @@ implement FSM
   
 ```
 
-# DIS SEC09 - Queue
+# DIS SEC09 - [Queue](https://cornell-ece4750.github.io/ece4750-sec09-mem-rtest-queues/)
 
 Testing info can be found [here](https://github.com/cornell-ece4750/ece4750-sec09-mem-rtest-queues/blob/main/docs/index.md)
 Key point is queue/memory should be initialized before the testing - by putting data first!
