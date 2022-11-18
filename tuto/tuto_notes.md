@@ -216,3 +216,65 @@ Key point is queue/memory should be initialized before the testing - by putting 
     - combinational communication between en+dequeue in single cycle with one wire (deq_rdy->ene_rdy)
 - Bypass queue
     - flow, enqueue when it's not ready
+
+# DIS SEC12 - [Networks](https://cornell-ece4750.github.io/ece4750-sec12-net/)
+
+- Networks: connects caches & processors
+    (1) bus: broadcasts to all the banks, but processes 1 instr at a time
+    (2) crossbar: high throughput but trade off exists with energy and area
+    (3) multistate: butterfly, torus -> point to point channels + routers
+- Lab 4:
+    - we will use L1 data cache, cacheNet(word, size, read, write), torus topology (1d: ring)
+    - ring network: 4 routers (with 3 input ports and 3 ouput ports each) - where does it send to?
+- Router: 3 inputs, 3 outputs
+    - 4 entry normal queue for input unit
+    - route unit: chooses switch unit
+    - switch unit: choose/arbitrate out of multiple inputs
+- Switch:
+    - we take care of fairness by using RoundRobin
+    - choose input stream based on the output stream_rdy
+    - optimize this depending on the data 
+- Routing algo: should consider latency + throughput
+    - choose clk/ctrclk depends on hop number
+    - but what if it has the same hop number?: random or assign specific ones to go to a certain way
+- Deadlock:two processors waiting on the same resources
+    - this happens easily on ring network
+    - but in our lab, we only implemented a processor that can only load one..
+    - at most 4 instructions in-flight -> no need to consider for deadlock for the lab
+- Opaque field: checks re-ordering in OOO processors
+- Payload: bits that should be carried by the network - network does not care about it
+- Route Unit:look at msg, pick up dest field, and pick clk/ctrclk
+    - 1 input + 3 outputs
+    
+Let's go to Lab 4:
+
+tested with 
+```
+pytest ../lab4_sys/test/NetRouterRouteUnit_test.py -v
+```
+check router/switch diagram per specific test with
+```
+pytest ../lab4_sys/test/NetRouterRouteUnit_test.py -v -k stream_to_all -s
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
