@@ -217,7 +217,7 @@ Key point is queue/memory should be initialized before the testing - by putting 
 - Bypass queue
     - flow, enqueue when it's not ready
 
-# DIS SEC12 - [Networks](https://cornell-ece4750.github.io/ece4750-sec12-net/)
+# DIS SEC12 - [Networks](https://github.com/cornell-ece4750/ece4750-sec12-net)
 
 - Networks: connects caches & processors
     (1) bus: broadcasts to all the banks, but processes 1 instr at a time
